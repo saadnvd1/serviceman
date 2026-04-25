@@ -1,65 +1,90 @@
 # serviceman
 
-Lightweight process manager for background services with auto-restart and logging.
+> Lightweight process manager with auto-restart, logging, and launchd integration
+
+<!--
+<p align="center">
+	<img src="media/demo.gif" width="600">
+</p>
+-->
 
 ## Install
 
-```bash
+```sh
+git clone https://github.com/saadnvd1/serviceman.git
+cd serviceman
 ./install.sh
 ```
 
+Make sure `~/bin` is in your `PATH`.
+
 ## Usage
 
-```bash
-# Add a service
-sm add myserver "python3 server.py"
-sm add myserver "npm start" -c /path/to/project
+```sh
+sm <command> [options]
+```
 
-# Start/stop
-sm start myserver
-sm stop myserver
-sm restart myserver
+### Commands
 
-# Manage all services
-sm start-all
-sm stop-all
-sm restart-all
+| Command | Description |
+|---------|-------------|
+| `add <name> "<cmd>"` | Register a service (`-c` for working dir) |
+| `start <name>` | Start a service |
+| `stop <name>` | Stop a service |
+| `restart <name>` | Restart a service |
+| `status [name]` | Show status (all or specific) |
+| `list` | List all services |
+| `logs <name>` | View logs (`-n` lines, `-f` follow, `--clear`) |
+| `edit <name>` | Modify config (`-c` cmd, `-w` dir) |
+| `enable <name>` | Auto-start on login (macOS launchd) |
+| `disable <name>` | Remove from login items |
+| `remove <name>` | Unregister a service |
+| `start-all` | Start all services |
+| `stop-all` | Stop all services |
+| `restart-all` | Restart all services |
 
-# Status
-sm status           # all services
-sm status myserver  # specific service
+### Examples
 
-# List all services
+```sh
+# Run a web server with auto-restart
+sm add myapp "npm start" -c /path/to/project
+sm start myapp
+
+# Check what's running
 sm list
 
-# View logs
-sm logs myserver        # last 50 lines
-sm logs myserver -n 100 # last 100 lines
-sm logs myserver -f     # follow (tail -f)
-sm logs myserver --clear # clear logs
+# Follow logs
+sm logs myapp -f
 
-# Edit service config
-sm edit myserver -c "new command"
-sm edit myserver -w /new/working/dir
-
-# Auto-start on login (macOS launchd)
-sm enable myserver   # start on login
-sm disable myserver  # remove from login
-
-# Remove
-sm remove myserver
+# Start on login
+sm enable myapp
 ```
+
+## How it works
+
+Single Python daemon (`smd`) manages all child processes via a Unix socket. The CLI (`sm`) sends commands to the daemon. Crashed services auto-restart with exponential backoff (1s → 30s). Combined stdout/stderr captured per-service in `~/.serviceman/logs/`.
 
 ## Features
 
-- Auto-restart on crash with exponential backoff (1s -> 30s)
-- Combined stdout/stderr logging
-- Auto-start on login via launchd
-- No dependencies (Python stdlib only)
+- **Auto-restart** on crash with exponential backoff
+- **Combined logging** — stdout and stderr per service
+- **launchd integration** — auto-start on macOS login
+- **Single file**, zero dependencies, Python stdlib only
 
 ## Storage
 
-All data stored in `~/.serviceman/`:
-- `services.json` - service definitions
-- `pids/` - PID files
-- `logs/` - log files
+All state lives in `~/.serviceman/`:
+
+| Path | Contents |
+|------|----------|
+| `services.json` | Service definitions |
+| `pids/` | PID files |
+| `logs/` | Per-service log files |
+
+## Related
+
+- [harry-bot](https://github.com/saadnvd1/harry-bot) - Personal AI assistant that uses serviceman for deployment
+
+## License
+
+MIT
