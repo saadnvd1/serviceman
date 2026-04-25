@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1b26;
+    color: #a9b1d6;
+    font-family: "SF Mono", "Menlo", "Monaco", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+  }
+  .window {
+    background: #1a1b26;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 1280px;
+    height: 720px;
+    display: flex;
+    flex-direction: column;
+  }
+  .titlebar {
+    background: #24283b;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-red { background: #f7768e; }
+  .dot-yellow { background: #e0af68; }
+  .dot-green { background: #9ece6a; }
+  .titlebar-text { color: #565f89; font-size: 12px; margin-left: 8px; }
+  .content { padding: 20px 24px; overflow: hidden; flex: 1; }
+  pre { font-family: inherit; font-size: inherit; line-height: inherit; }
+
+  .prompt { color: #7aa2f7; }
+  .green { color: #9ece6a; }
+  .red { color: #f7768e; }
+  .yellow { color: #e0af68; }
+  .cyan { color: #7dcfff; }
+  .white { color: #c0caf5; }
+  .dim { color: #565f89; }
+  .bold { font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+    <span class="titlebar-text">~ — sm</span>
+  </div>
+  <div class="content">
+    <pre><span class="prompt">$</span> <span class="white">sm add webapp "npm start" -c /opt/services/webapp</span>
+<span class="green">Added service: webapp</span>
+
+<span class="prompt">$</span> <span class="white">sm add harry-bot "python3 bot.py" -c /opt/services/harry-bot</span>
+<span class="green">Added service: harry-bot</span>
+
+<span class="prompt">$</span> <span class="white">sm start-all</span>
+<span class="green">Started: webapp</span>
+<span class="green">Started: harry-bot</span>
+
+<span class="prompt">$</span> <span class="white">sm list</span>
+<span class="bold white">SERVICE        STATUS     PID     UPTIME</span>
+<span class="white">webapp         </span><span class="green">running    </span><span class="dim">48201   </span><span class="cyan">2h 14m</span>
+<span class="white">harry-bot      </span><span class="green">running    </span><span class="dim">48215   </span><span class="cyan">2h 14m</span>
+
+<span class="prompt">$</span> <span class="white">sm logs webapp -n 5</span>
+<span class="dim">2026-04-24 08:12:01</span> Server listening on port 3000
+<span class="dim">2026-04-24 08:14:33</span> GET /api/health <span class="green">200</span> 2ms
+<span class="dim">2026-04-24 08:15:01</span> GET /api/users <span class="green">200</span> 45ms
+<span class="dim">2026-04-24 09:22:17</span> POST /api/data <span class="green">201</span> 120ms
+<span class="dim">2026-04-24 10:26:44</span> GET /api/health <span class="green">200</span> 1ms
+
+<span class="prompt">$</span> <span class="white">sm enable webapp</span>
+<span class="green">Enabled: webapp will start on login</span>
+<span class="dim">Created: ~/Library/LaunchAgents/com.serviceman.webapp.plist</span>
+
+<span class="prompt">$</span> <span class="dim">█</span></pre>
+  </div>
+</div>
+</body>
+</html>

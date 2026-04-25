@@ -2,11 +2,9 @@
 
 > Lightweight process manager with auto-restart, logging, and launchd integration
 
-<!--
 <p align="center">
-	<img src="media/demo.gif" width="600">
+	<img src="media/demo.png" width="600">
 </p>
--->
 
 ## Install
 
